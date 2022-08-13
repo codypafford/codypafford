@@ -5,9 +5,36 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 65px; 
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* --------FOR GAME-------------------------- */
+:root {
+  --grid-cols: 1;
+  --grid-rows: 1;
+}
+
+#gcontainer {
+  display: grid;
+  grid-gap: 0.02em;
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  padding-right: 5%;
+  padding-left: 5%;
+  padding-bottom: 5%;
+  padding-top: 3%;
+}
+
+.grid-item {
+  padding: 1em;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* // ---------------------- */
+
+
