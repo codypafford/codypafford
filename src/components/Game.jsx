@@ -168,40 +168,42 @@ class Game extends Component {
   render() {
     return (
       <Fragment>
-        <div style={{ backgroundColor: "#FAF9F6" }}>
-          <div>
-            <div className="gameDescriptions">
-              # of wrong clicks: {this.state.numOfWrongClicks}
-            </div>
-            <div className="gameDescriptions">
-              # of correct clicks: {this.state.numOfGoodClicks}
-            </div>
-            <div className="gameDescriptions">
-              Difficulty: {this.state.speed}
-            </div>
-          </div>
-          {this.state.showRules ? (
+        <div className="container">
+          <div style={{ backgroundColor: "#FAF9F6" }}>
             <div>
-              <GameRules />
-              <div className="centerAlignText">
-                <button
-                  style={{
-                    backgroundColor: "green",
-                    borderRadius: "50px",
-                    margin: "20px",
-                  }}
-                  onClick={this.hideGameRules}
-                >
-                  PLAY
-                </button>
+              <div className="gameDescriptions">
+                # of wrong clicks: {this.state.numOfWrongClicks}
+              </div>
+              <div className="gameDescriptions">
+                # of correct clicks: {this.state.numOfGoodClicks}
+              </div>
+              <div className="gameDescriptions">
+                Difficulty: {this.state.speed}
               </div>
             </div>
-          ) : (
-            <div className="content">
-              <div id="gcontainer"></div>
-            </div>
-          )}
-          <div id="game_rules"></div>
+            {this.state.showRules ? (
+              <div>
+                <GameRules />
+                <div className="centerAlignText">
+                  <button
+                    style={{
+                      backgroundColor: "green",
+                      borderRadius: "50px",
+                      margin: "20px",
+                    }}
+                    onClick={this.hideGameRules}
+                  >
+                    PLAY
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="content">
+                <div id="gcontainer"></div>
+              </div>
+            )}
+            <div id="game_rules"></div>
+          </div>
         </div>
       </Fragment>
     );
