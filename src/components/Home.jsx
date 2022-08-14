@@ -19,7 +19,7 @@ var bgImageMobile = {
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
   overflow: "hidden",
-  borderRadius: 150,
+  borderRadius: 50,
   borderWidth: 10,
 };
 
