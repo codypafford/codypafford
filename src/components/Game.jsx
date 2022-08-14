@@ -98,7 +98,13 @@ class Game extends Component {
     var x = Math.floor(Math.random() * (rows + 1) + 0);
     var y = Math.floor(Math.random() * (cols + 1) + 0);
     var this_ref = this;
-    this.makeRows(rows, cols, x, y, this_ref);
+    var bomb = false;
+    if (((x + y) / 3) % 3 == 1 || ((x + y) / 3) % 3 == 0) {
+      bomb = true;
+      this.makeRows(rows, cols, x, y, this_ref, bomb);
+    } else {
+      this.makeRows(rows, cols, x, y, this_ref, bomb);
+    }
   }
 
   componentDidMount() {
@@ -119,8 +125,13 @@ class Game extends Component {
 
   checkClick(e) {
     if (e.target.getAttribute("data-colored") === "true") {
-      var good = this.state.numOfGoodClicks;
-      this.setState({ numOfGoodClicks: good + 1 });
+      if (e.target.getAttribute("data-bomb") === "true") {
+        var wrong = this.state.numOfWrongClicks;
+        this.setState({ numOfWrongClicks: wrong + 1 });
+      } else {
+        var good = this.state.numOfGoodClicks;
+        this.setState({ numOfGoodClicks: good + 1 });
+      }
     } else {
       var wrong = this.state.numOfWrongClicks;
       this.setState({ numOfWrongClicks: wrong + 1 });
@@ -131,7 +142,7 @@ class Game extends Component {
     this.setState({ showRules: false });
   }
 
-  makeRows(rows, cols, colorX, colorY, this_ref) {
+  makeRows(rows, cols, colorX, colorY, this_ref, color_bomb) {
     var cellToColorX = colorX;
     var cellToColorY = colorY;
     const container = document.getElementById("gcontainer");
@@ -167,7 +178,13 @@ class Game extends Component {
         cell.getAttribute("data-x") == cellToColorX &&
         cell.getAttribute("data-y") == cellToColorY
       ) {
-        cell.style = "color:white; background-color:green";
+        if (color_bomb) {
+          cell.style = "color:white; background-color:red";
+          cell.setAttribute("data-bomb", "true");
+        } else {
+          cell.style = "color:white; background-color:green";
+          cell.setAttribute("data-bomb", "false");
+        }
         cell.setAttribute("data-colored", "true");
       }
     }
