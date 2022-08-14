@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 
 import LogoImage from "../images/bg_img.JPEG";
+import LogoImageMobile from "../images/bg_img_mobile.JPEG";
 import AnimatedText from "react-animated-text-content";
+import { isMobile } from "react-device-detect";
 
 var bgImage = {
   backgroundPosition: "center",
@@ -12,11 +14,27 @@ var bgImage = {
   borderWidth: 10,
 };
 
+var bgImageMobile = {
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  overflow: "hidden",
+};
+
 var imgParent = {
   display: "flex",
   justifyContent: "center",
   overflow: "hidden",
   position: "relative",
+};
+
+var imgParentMobile = {
+  display: "flex",
+  justifyContent: "center",
+  overflow: "hidden",
+  position: "relative",
+  width: "100%",
+  height: "100%",
 };
 
 var container = {
@@ -51,8 +69,14 @@ class Home extends Component {
             Hi, I'm Cody Pafford. Welcome to my page!
           </AnimatedText>
         </div>
-        <div style={imgParent} className="head-text">
-          <img src={LogoImage} style={bgImage} />
+        <div
+          style={isMobile ? imgParentMobile : imgParent}
+          className="head-text"
+        >
+          <img
+            src={isMobile ? LogoImageMobile : LogoImage}
+            style={isMobile ? bgImageMobile : bgImage}
+          />
         </div>
       </Fragment>
     );
