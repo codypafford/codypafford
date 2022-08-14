@@ -105,7 +105,7 @@ class Game extends Component {
     document.title = "Game";
     if (isMobile) {
       this.setState({ numOfTilesXAndY: 5 });
-      this.setState({ speed: 600 });
+      this.setState({ speed: 400 });
     }
     this.interval = setInterval(() => {
       if (!this.state.showRules) {
