@@ -28,7 +28,7 @@ class AboutMe extends Component {
     return (
       <Fragment>
         <Container>
-          <h4 style={{ color: "#0000d8" }}>
+          <h4 style={{ color: "goldenrod" }}>
             {" "}
             <AnimatedText
               type="words" // animate words or chars
@@ -64,8 +64,10 @@ class AboutMe extends Component {
               >
                 {Data.experience.map((exp, idx) => {
                   return (
-                    <li key={idx} style={{ textAlign: "center" }}>
-                      <FontAwesomeIcon icon={faCheckCircle} />
+                    <li
+                      key={idx}
+                      style={{ textAlign: "center", color: "gray" }}
+                    >
                       <AnimatedText
                         type="words" // animate words or chars
                         animation={{
