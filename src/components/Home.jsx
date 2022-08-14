@@ -19,11 +19,6 @@ var imgParent = {
   position: "relative",
 };
 
-var headText = {
-  position: "relative",
-  color: "white",
-};
-
 var container = {
   textAlign: "center",
 };
@@ -57,9 +52,7 @@ class Home extends Component {
           </AnimatedText>
         </div>
         <div style={imgParent} className="head-text">
-          <div style={headText}>
-            <img src={LogoImage} style={bgImage} />
-          </div>
+          <img src={LogoImage} style={bgImage} />
         </div>
       </Fragment>
     );
