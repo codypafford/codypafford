@@ -19,6 +19,8 @@ var bgImageMobile = {
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
   overflow: "hidden",
+  borderRadius: 150,
+  borderWidth: 10,
 };
 
 var imgParent = {
