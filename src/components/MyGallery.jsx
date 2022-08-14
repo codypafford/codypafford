@@ -12,16 +12,16 @@ import {
 } from "react-bootstrap";
 
 import galleryImg1 from "../images/gallery/gallery1.JPG";
-import galleryImg2 from "../images/gallery/gallery2.JPEG";
+import galleryImg2 from "../images/gallery/gallery2.jpg";
 import galleryImg3 from "../images/gallery/gallery3.JPEG";
-import galleryImg4 from "../images/gallery/gallery4.jpeg";
+import galleryImg4 from "../images/gallery/gallery4.jpg";
 import galleryImg5 from "../images/gallery/gallery5.JPG";
 import galleryImg6 from "../images/gallery/gallery6.JPEG";
-import galleryImg7 from "../images/gallery/gallery7.JPG";
-import galleryImg8 from "../images/gallery/gallery8.JPEG";
-import galleryImg9 from "../images/gallery/gallery9.JPEG";
+import galleryImg7 from "../images/gallery/gallery7.jpg";
+import galleryImg8 from "../images/gallery/gallery8.JPG";
+import galleryImg9 from "../images/gallery/gallery9.jpg";
 import galleryImg10 from "../images/gallery/gallery10.JPEG";
-import galleryImg11 from "../images/gallery/gallery11.JPEG";
+// import galleryImg11 from "../images/gallery/gallery11.jpg";
 
 const images = [
   {
@@ -64,10 +64,10 @@ const images = [
     original: galleryImg10,
     thumbnail: galleryImg10,
   },
-  {
-    original: galleryImg11,
-    thumbnail: galleryImg11,
-  },
+  // {
+  //   original: galleryImg11,
+  //   thumbnail: galleryImg11,
+  // },
 ];
 
 class MyGallery extends React.Component {

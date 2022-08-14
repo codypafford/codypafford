@@ -117,8 +117,8 @@ class AboutMe extends Component {
                 scale: 1.1,
                 ease: "ease-in-out",
               }}
-              animationType="wave"
-              interval={0.06}
+              animationType="float"
+              interval={0.02}
               duration={0.5}
               tag="p"
               className="animated-paragraph centerAlignText"
@@ -127,8 +127,11 @@ class AboutMe extends Component {
               rootMargin="20%"
             >
               Aside from software development, I love adventures and have a
-              passion for being outdoors. Hiking, kayaking, traveling, you name
-              it. I am also an aquarium enthusiast.
+              passion for being outdoors. Hiking, kayaking, fishing, traveling,
+              you name it! I also have been fishkeeping for years and have kept
+              just about every freshwater fish sold in stores at some point. I
+              currently have an axolotl, betta fish, and a group of pea
+              pufferfish.
             </AnimatedText>
           </h5>
           <p className="centerAlignText">
