@@ -59,7 +59,8 @@ class AboutMe extends Component {
             }}
           >
             ** I made this site to experiment with deployment processes as well
-            as JavaScript and CSS. **
+            as JavaScript and CSS with the hope of updating this with new
+            experiments every now and then **
           </div>
           <p className="centerAlignText">
             I am currently a software engineer with experience in a variety of
@@ -129,9 +130,9 @@ class AboutMe extends Component {
               Aside from software development, I love adventures and have a
               passion for being outdoors. Hiking, kayaking, fishing, traveling,
               you name it! I also have been fishkeeping for years and have kept
-              just about every freshwater fish sold in stores at some point. I
-              currently have an axolotl, betta fish, and a group of pea
-              pufferfish.
+              just about every freshwater fish sold in stores at one point or
+              another over the years. I currently have an axolotl, betta fish,
+              and a group of pea pufferfish.
             </AnimatedText>
           </h5>
           <p className="centerAlignText">
