@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 
 import GameRules from "./GameRules";
+import { isMobile } from "react-device-detect";
 
 class Game extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class Game extends Component {
       numOfMissedClicks: 0,
       totalPossibleClicks: 0,
       speed: 800,
+      numOfTilesXAndY: 10,
       showRules: true,
     };
 
@@ -101,9 +103,15 @@ class Game extends Component {
 
   componentDidMount() {
     document.title = "Game";
+    if (isMobile) {
+      this.setState({ numOfTilesXAndY: 5 });
+    }
     this.interval = setInterval(() => {
       if (!this.state.showRules) {
-        this.randomClickerGame(10, 10);
+        this.randomClickerGame(
+          this.state.numOfTilesXAndY,
+          this.state.numOfTilesXAndY
+        );
       }
     }, this.state.speed);
   }
