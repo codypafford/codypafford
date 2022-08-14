@@ -5,6 +5,7 @@ import { SocialIcon } from "react-social-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGamepad } from "@fortawesome/free-solid-svg-icons";
 import ReactAnimatedWeather from "react-animated-weather";
 
 const defaults = {
@@ -35,7 +36,7 @@ const NavigationMenu = (props) => {
             <Nav.Link href="#link">Download Resume</Nav.Link>
             <NavDropdown title="Games" id="basic-nav-dropdown">
               <NavDropdown.Item href="#/clicker" target="">
-                Clicker Game
+                <FontAwesomeIcon icon={faGamepad} /> &nbsp; Clicker Game
               </NavDropdown.Item>
             </NavDropdown>
 
