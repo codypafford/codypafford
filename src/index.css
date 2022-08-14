@@ -55,7 +55,6 @@ code {
   position:relative;
   width:100vw;
   height:90vh;
-  overflow:hidden;
   display:flex;
   align-items: 'center';
   text-align: center;
