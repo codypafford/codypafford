@@ -1,7 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import {
+  Button,
+  Navbar,
+  Nav,
+  Container,
+  NavDropdown,
+  Row,
+} from "react-bootstrap";
 
 import galleryImg1 from "../images/gallery/gallery1.JPG";
 import galleryImg2 from "../images/gallery/gallery2.JPEG";
@@ -64,7 +72,15 @@ const images = [
 
 class MyGallery extends React.Component {
   render() {
-    return <ImageGallery items={images} />;
+    return (
+      <Fragment>
+        <Container>
+          <div style={{}}>
+            <ImageGallery items={images} />
+          </div>
+        </Container>
+      </Fragment>
+    );
   }
 }
 

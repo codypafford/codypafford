@@ -50,6 +50,17 @@ class AboutMe extends Component {
               My name is Cody Pafford
             </AnimatedText>
           </h4>
+          <div
+            className="centerAlignText"
+            style={{
+              fontSize: "15px",
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            ** I made this site to experiment with deployment processes as well
+            as JavaScript and CSS. **
+          </div>
           <p className="centerAlignText">
             I am currently a software engineer with experience in a variety of
             different technologies, including but not limited to:
