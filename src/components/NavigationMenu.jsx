@@ -31,10 +31,10 @@ const NavigationMenu = (props) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="about-me">About Me</Nav.Link>
+            <Nav.Link href="#/about-me">About Me</Nav.Link>
             <Nav.Link href="#link">Download Resume</Nav.Link>
             <NavDropdown title="Games" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/clicker" target="">
+              <NavDropdown.Item href="#/clicker" target="">
                 Clicker Game
               </NavDropdown.Item>
             </NavDropdown>

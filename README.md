@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+Run all commands from project ROOT. Push changes to remote master/main and then run `npm run deploy` to deploy to Git Hub Pages.
+
 In the project directory, you can run:
 
 ### `npm start`
