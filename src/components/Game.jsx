@@ -156,6 +156,7 @@ class Game extends Component {
     }
   }
 
+  // TODO: make stylesheet for all styles instead of inline styling
   render() {
     return (
       <Fragment>
