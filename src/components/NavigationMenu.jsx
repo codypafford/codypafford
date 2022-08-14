@@ -8,6 +8,8 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faGamepad } from "@fortawesome/free-solid-svg-icons";
 import ReactAnimatedWeather from "react-animated-weather";
 
+import resume from "../../src/resume/cody_pafford_resume.pdf";
+
 const defaults = {
   icon: "CLEAR_DAY",
   color: "goldenrod",
@@ -33,7 +35,9 @@ const NavigationMenu = (props) => {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="#/about-me">About Me</Nav.Link>
-            <Nav.Link href="#link">Download Resume</Nav.Link>
+            <Nav.Link href={resume} target="_blank">
+              Download Resume
+            </Nav.Link>
             <NavDropdown title="Games" id="basic-nav-dropdown">
               <NavDropdown.Item href="#/clicker" target="">
                 <FontAwesomeIcon icon={faGamepad} /> &nbsp; Clicker Game
