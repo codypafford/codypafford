@@ -35,6 +35,21 @@ code {
   text-align: center;
 }
 
+.gameBtns {
+  border: 2px solid #999;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.gameBtns:hover {
+  border: 2px solid #111;
+}
+
 /* // ---------------------- */
+
+.centerAlignText {
+  text-align: center;
+}
 
 

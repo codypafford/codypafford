@@ -8,6 +8,8 @@ import {
   Row,
 } from "react-bootstrap";
 
+import GameRules from "./GameRules";
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -19,8 +21,11 @@ class Game extends Component {
       numOfGoodClicks: 0,
       numOfMissedClicks: 0,
       totalPossibleClicks: 0,
-      speed: 700,
+      speed: 800,
+      showRules: true,
     };
+
+    this.hideGameRules = this.hideGameRules.bind(this);
   }
 
   determineWhichToColor(rows, cols) {
@@ -96,11 +101,11 @@ class Game extends Component {
 
   componentDidMount() {
     document.title = "Game";
-    // this.interval = setInterval(() => this.determineWhichToColor(10, 10), 500);
-    this.interval = setInterval(
-      () => this.randomClickerGame(10, 10),
-      this.state.speed
-    );
+    this.interval = setInterval(() => {
+      if (!this.state.showRules) {
+        this.randomClickerGame(10, 10);
+      }
+    }, this.state.speed);
   }
 
   checkClick(e) {
@@ -111,6 +116,10 @@ class Game extends Component {
       var wrong = this.state.numOfWrongClicks;
       this.setState({ numOfWrongClicks: wrong + 1 });
     }
+  }
+
+  hideGameRules() {
+    this.setState({ showRules: false });
   }
 
   makeRows(rows, cols, colorX, colorY, this_ref) {
@@ -127,13 +136,12 @@ class Game extends Component {
     var onRow = 1;
     var onCol = 1;
     for (var c = 0; c < rows * cols; c++) {
-      let cell = document.createElement("div");
+      let cell = document.createElement("button");
       cell.innerText = c + 1;
       cell.setAttribute("data-x", x);
       cell.setAttribute("data-y", y);
       cell.addEventListener("click", function (e) {
         this_ref.checkClick(e);
-        console.log(e.target);
       });
       if (c == onRow * cols - 1) {
         x = x + 1;
@@ -145,7 +153,7 @@ class Game extends Component {
         y = 0;
         onCol = onCol + 1;
       }
-      container.appendChild(cell).className = "grid-item";
+      container.appendChild(cell).className = "grid-item gameBtns";
       if (
         cell.getAttribute("data-x") == cellToColorX &&
         cell.getAttribute("data-y") == cellToColorY
@@ -158,28 +166,44 @@ class Game extends Component {
 
   // TODO: make stylesheet for all styles instead of inline styling
   render() {
+    const styles = {
+      gameDescriptions: {
+        paddingLeft: "60px",
+        color: "green",
+      },
+    };
     return (
       <Fragment>
         <div style={{ backgroundColor: "#FAF9F6" }}>
-          <div style={{ display: "inline-block" }}>
-            <div style={{ paddingLeft: "60px", color: "green" }}>
+          <div>
+            <div style={styles.gameDescriptions}>
               # of wrong clicks: {this.state.numOfWrongClicks}
             </div>
-            <div style={{ paddingLeft: "60px", color: "green" }}>
+            <div style={styles.gameDescriptions}>
               # of correct clicks: {this.state.numOfGoodClicks}
             </div>
-            {/* <div style={{ padingLeft: "20px", color: "green" }}>
-              # of missed clicks: {this.state.numOfMissedClicks}
-            </div> */}
-            <div style={{ paddingLeft: "60px", color: "green" }}>
-              Choose Difficulty:
-              {this.state.speed}
+            <div style={styles.gameDescriptions}>
+              Difficulty: {this.state.speed}
             </div>
           </div>
-
-          <div className="content">
-            <div id="gcontainer"></div>
-          </div>
+          {this.state.showRules ? (
+            <div>
+              <GameRules />
+              <div style={{ textAlign: "center" }}>
+                <button
+                  style={{ backgroundColor: "green" }}
+                  onClick={this.hideGameRules}
+                >
+                  PLAY
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="content">
+              <div id="gcontainer"></div>
+            </div>
+          )}
+          <div id="game_rules"></div>
         </div>
       </Fragment>
     );
