@@ -169,7 +169,7 @@ class Game extends Component {
     return (
       <Fragment>
         <div className="container">
-          <div style={{ backgroundColor: "#FAF9F6" }}>
+          <div style={{ backgroundColor: "#FAF9F6", paddingTop: "20px" }}>
             <div>
               <div className="gameDescriptions">
                 # of wrong clicks: {this.state.numOfWrongClicks}
@@ -198,8 +198,10 @@ class Game extends Component {
                 </div>
               </div>
             ) : (
-              <div className="content">
-                <div id="gcontainer"></div>
+              <div className="game-container-wrap">
+                <div className="content">
+                  <div id="gcontainer"></div>
+                </div>
               </div>
             )}
             <div id="game_rules"></div>
