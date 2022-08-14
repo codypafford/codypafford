@@ -185,7 +185,11 @@ class Game extends Component {
               <GameRules />
               <div className="centerAlignText">
                 <button
-                  style={{ backgroundColor: "green" }}
+                  style={{
+                    backgroundColor: "green",
+                    borderRadius: "50px",
+                    margin: "20px",
+                  }}
                   onClick={this.hideGameRules}
                 >
                   PLAY

@@ -9,6 +9,11 @@ import {
   Row,
 } from "react-bootstrap";
 import AnimatedText from "react-animated-text-content";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+
 let Data = require("../data/data.json");
 
 var listItem = {
@@ -37,7 +42,7 @@ class AboutMe extends Component {
               interval={0.06}
               duration={0.8}
               tag="p"
-              className="animated-paragraph"
+              className="animated-paragraph centerAlignText"
               includeWhiteSpaces
               threshold={0.1}
               rootMargin="20%"
@@ -45,7 +50,7 @@ class AboutMe extends Component {
               My name is Cody Pafford
             </AnimatedText>
           </h4>
-          <p>
+          <p className="centerAlignText">
             I am currently a software engineer with experience in a variety of
             different technologies, including but not limited to:
             <br />
@@ -54,13 +59,32 @@ class AboutMe extends Component {
               <ul
                 style={{
                   columnCount: "2",
-                  listStyleType: `'\\2713'`,
+                  listStyleType: "none",
                 }}
               >
                 {Data.experience.map((exp, idx) => {
                   return (
-                    <li key={idx}>
-                      <p style={{ color: "#8B0000" }}>{exp}</p>
+                    <li key={idx} style={{ textAlign: "center" }}>
+                      <FontAwesomeIcon icon={faCheckCircle} />
+                      <AnimatedText
+                        type="words" // animate words or chars
+                        animation={{
+                          x: "600px",
+                          y: "-200px",
+                          scale: 1.1,
+                          ease: "ease-in-out",
+                        }}
+                        animationType="wave"
+                        interval={0.06}
+                        duration={1.2}
+                        tag="p"
+                        className="animated-paragraph"
+                        includeWhiteSpaces
+                        threshold={0.1}
+                        rootMargin="20%"
+                      >
+                        {exp}
+                      </AnimatedText>
                     </li>
                   );
                 })}
@@ -84,7 +108,7 @@ class AboutMe extends Component {
               interval={0.06}
               duration={0.5}
               tag="p"
-              className="animated-paragraph"
+              className="animated-paragraph centerAlignText"
               includeWhiteSpaces
               threshold={0.1}
               rootMargin="20%"
@@ -94,7 +118,7 @@ class AboutMe extends Component {
               it. I am also an aquarium enthusiast.
             </AnimatedText>
           </h5>
-          <p>
+          <p className="centerAlignText">
             Get to know me a little better by viewing my gallery of the above
             mentioned hobbies.
           </p>
