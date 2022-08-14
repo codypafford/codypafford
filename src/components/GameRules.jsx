@@ -9,7 +9,7 @@ class GameRules extends React.Component {
         </div>
         <br></br>
         <ul>
-          <li>Game does not work correctly on mobile devices</li>
+          <li>Game does not work correctly on mobile devices.</li>
           <li>Simply click as many green tiles as possible.</li>
           <li>Choose the difficulty and hit play.</li>
         </ul>

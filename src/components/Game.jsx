@@ -166,30 +166,24 @@ class Game extends Component {
 
   // TODO: make stylesheet for all styles instead of inline styling
   render() {
-    const styles = {
-      gameDescriptions: {
-        paddingLeft: "60px",
-        color: "green",
-      },
-    };
     return (
       <Fragment>
         <div style={{ backgroundColor: "#FAF9F6" }}>
           <div>
-            <div style={styles.gameDescriptions}>
+            <div className="gameDescriptions">
               # of wrong clicks: {this.state.numOfWrongClicks}
             </div>
-            <div style={styles.gameDescriptions}>
+            <div className="gameDescriptions">
               # of correct clicks: {this.state.numOfGoodClicks}
             </div>
-            <div style={styles.gameDescriptions}>
+            <div className="gameDescriptions">
               Difficulty: {this.state.speed}
             </div>
           </div>
           {this.state.showRules ? (
             <div>
               <GameRules />
-              <div style={{ textAlign: "center" }}>
+              <div className="centerAlignText">
                 <button
                   style={{ backgroundColor: "green" }}
                   onClick={this.hideGameRules}
