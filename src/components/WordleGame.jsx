@@ -39,7 +39,7 @@ class WordleGame extends Component {
     var this_ref = this;
     // Make a request for a user with a given ID
     axios
-      .get("https://random-word-api.herokuapp.com/word")
+      .get("https://random-word-api.herokuapp.com/word?length=7")
       .then(function (response) {
         // handle success
         console.log(response);
@@ -199,45 +199,55 @@ class WordleGame extends Component {
             </Button>
             <div>
               {" "}
-              {this.state.arrayOfLettersPicked.length == 0
-                ? this.state.theGivens.map((given, idx) => {
-                    return (
-                      <div
-                        key={idx}
-                        style={{ textAlign: "center", color: "gray" }}
-                      >
-                        <AnimatedText
-                          type="words" // animate words or chars
-                          animation={{
-                            x: "600px",
-                            y: "-200px",
-                            scale: 1.1,
-                            ease: "ease-in-out",
-                          }}
-                          animationType="wave"
-                          interval={0.06}
-                          duration={1.2}
-                          tag="p"
-                          className="animated-paragraph"
-                          includeWhiteSpaces
-                          threshold={0.1}
-                          rootMargin="20%"
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(7, 1fr)",
+                  backgroundColor: "beige",
+                }}
+              >
+                {this.state.arrayOfLettersPicked.length == 0
+                  ? this.state.theGivens.map((given, idx) => {
+                      return (
+                        <div
+                          key={idx}
+                          style={{ color: "gray" }}
+                          className="center-element-justified"
+                        >
+                          <AnimatedText
+                            type="words" // animate words or chars
+                            animation={{
+                              x: "600px",
+                              y: "-200px",
+                              scale: 1.1,
+                              ease: "ease-in-out",
+                            }}
+                            animationType="wave"
+                            interval={0.06}
+                            duration={1.2}
+                            tag="div"
+                            className="animated-paragraph"
+                            includeWhiteSpaces
+                            threshold={0.1}
+                            rootMargin="20%"
+                          >
+                            {given}
+                          </AnimatedText>
+                        </div>
+                      );
+                    })
+                  : this.state.theGivens.map((given, idx) => {
+                      return (
+                        <div
+                          key={idx}
+                          style={{ color: "gray" }}
+                          className="center-element-justified"
                         >
                           {given}
-                        </AnimatedText>
-                      </div>
-                    );
-                  })
-                : this.state.theGivens.map((given, idx) => {
-                    return (
-                      <div
-                        key={idx}
-                        style={{ textAlign: "center", color: "gray" }}
-                      >
-                        {given}
-                      </div>
-                    );
-                  })}
+                        </div>
+                      );
+                    })}
+              </div>
             </div>
             <div className="center-element-justified">
               Letters chosen: {this.state.arrayOfLettersPicked}
