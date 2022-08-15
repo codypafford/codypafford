@@ -194,7 +194,7 @@ class Game extends Component {
   render() {
     return (
       <Fragment>
-        <div className="container">
+        <div className="container game-container-wrap">
           <div style={{ backgroundColor: "#FAF9F6", paddingTop: "20px" }}>
             <div>
               <div className="gameDescriptions">

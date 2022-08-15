@@ -58,6 +58,8 @@ code {
   display:flex;
   align-items: 'center';
   text-align: center;
+  overflow: hidden;
+  justify-content: center;
 }
 
 /* // ---------------------- */
