@@ -183,9 +183,10 @@ class WordleGame extends Component {
   render() {
     return (
       <Fragment>
-        <div className="container">
+        <div className="container game-container-wrap">
           <div className="content">
             <Button
+              className="center-element-justified"
               style={{ margin: "10px" }}
               onClick={this.checkSolution}
               disabled={!this.maxLettersPicked()}
@@ -234,15 +235,10 @@ class WordleGame extends Component {
                     );
                   })}
             </div>
-            <div>Letters chosen: {this.state.arrayOfLettersPicked}</div>
-            <div
-              id="answer_box"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            ></div>
+            <div className="center-element-justified">
+              Letters chosen: {this.state.arrayOfLettersPicked}
+            </div>
+            <div id="answer_box" className="center-element-justified"></div>
 
             <div id="gcontainer"></div>
           </div>

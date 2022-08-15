@@ -62,6 +62,12 @@ code {
   overflow: hidden;
 }
 
+.center-element-justified {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 /* // ---------------------- */
 
 .centerAlignText {
