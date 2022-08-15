@@ -42,6 +42,12 @@ const NavigationMenu = (props) => {
               <NavDropdown.Item href="#/clicker" target="">
                 <FontAwesomeIcon icon={faGamepad} /> &nbsp; Clicker Game
               </NavDropdown.Item>
+              <NavDropdown.Item href="#/loop-game" target="">
+                <FontAwesomeIcon icon={faGamepad} /> &nbsp; Loop Game
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#/word-game1" target="">
+                <FontAwesomeIcon icon={faGamepad} /> &nbsp; Word Game
+              </NavDropdown.Item>
             </NavDropdown>
 
             <NavDropdown title="Links" id="basic-nav-dropdown">
