@@ -178,31 +178,45 @@ class WordleGame extends Component {
             </Button>
             <div>
               {" "}
-              {this.state.theGivens.map((given, idx) => {
-                return (
-                  <div key={idx} style={{ textAlign: "center", color: "gray" }}>
-                    <AnimatedText
-                      type="words" // animate words or chars
-                      animation={{
-                        x: "600px",
-                        y: "-200px",
-                        scale: 1.1,
-                        ease: "ease-in-out",
-                      }}
-                      animationType="wave"
-                      interval={0.06}
-                      duration={1.2}
-                      tag="p"
-                      className="animated-paragraph"
-                      includeWhiteSpaces
-                      threshold={0.1}
-                      rootMargin="20%"
-                    >
-                      {given}
-                    </AnimatedText>
-                  </div>
-                );
-              })}
+              {this.state.arrayOfLettersPicked.length == 0
+                ? this.state.theGivens.map((given, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        style={{ textAlign: "center", color: "gray" }}
+                      >
+                        <AnimatedText
+                          type="words" // animate words or chars
+                          animation={{
+                            x: "600px",
+                            y: "-200px",
+                            scale: 1.1,
+                            ease: "ease-in-out",
+                          }}
+                          animationType="wave"
+                          interval={0.06}
+                          duration={1.2}
+                          tag="p"
+                          className="animated-paragraph"
+                          includeWhiteSpaces
+                          threshold={0.1}
+                          rootMargin="20%"
+                        >
+                          {given}
+                        </AnimatedText>
+                      </div>
+                    );
+                  })
+                : this.state.theGivens.map((given, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        style={{ textAlign: "center", color: "gray" }}
+                      >
+                        {given}
+                      </div>
+                    );
+                  })}
             </div>
             <div>Letters chosen: {this.state.arrayOfLettersPicked}</div>
             <div id="answer_box"></div>
