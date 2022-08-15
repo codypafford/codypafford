@@ -183,7 +183,7 @@ class WordleGame extends Component {
   render() {
     return (
       <Fragment>
-        <div className="game-container-wrap">
+        <div className="container">
           <div className="content">
             <Button
               style={{ margin: "10px" }}
@@ -235,7 +235,14 @@ class WordleGame extends Component {
                   })}
             </div>
             <div>Letters chosen: {this.state.arrayOfLettersPicked}</div>
-            <div id="answer_box"></div>
+            <div
+              id="answer_box"
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            ></div>
 
             <div id="gcontainer"></div>
           </div>
