@@ -12,6 +12,12 @@ import AnimatedText from "react-animated-text-content";
 import GameRules from "./GameRules";
 import { isMobile } from "react-device-detect";
 
+const axios = require("axios").default;
+
+// TODO: add number of attempts based on difficulty of word
+// have hint button that subtracts an attempt or 2 and returns number of vowels or double letter (e.g. OO or LL)
+// TODO: make the givens concat if still working on the same word but remove duplicates too
+
 class WordleGame extends Component {
   constructor(props) {
     super(props);
@@ -30,8 +36,23 @@ class WordleGame extends Component {
   componentDidMount() {
     document.title = "Game";
 
-    this.makeRows(this);
-    this.makeAnswerArea(this);
+    var this_ref = this;
+    // Make a request for a user with a given ID
+    axios
+      .get("https://random-word-api.herokuapp.com/word")
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        this_ref.setState({ word: response.data[0] }, () => {
+          this_ref.makeKeyboard(this_ref);
+          this_ref.makeAnswerArea(this_ref);
+        });
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {});
   }
 
   hideGameRules() {
@@ -89,12 +110,6 @@ class WordleGame extends Component {
       } catch {
         cell.innerText = "--";
       }
-
-      //   if (box_index_to_write_select_letter_to === i) {
-      //     cell.innerText = letter;
-      //   }
-
-      //   cell.style = "color:white; background-color:gray";
       cell.addEventListener("click", function (e) {
         this_ref.selectIndexOfAnswerBoxToWriteTo(e);
       });
@@ -102,7 +117,7 @@ class WordleGame extends Component {
     }
   }
 
-  makeRows(this_ref) {
+  makeKeyboard(this_ref) {
     const container = document.getElementById("gcontainer");
     while (container.firstChild) {
       container.firstChild.remove();
@@ -141,6 +156,7 @@ class WordleGame extends Component {
 
   setTheGivens() {
     // For givens AND letters the user got correct
+    // TODO: don't overwrite givens until onto the next word. Concat instead.
     var the_answer = this.state.word.toLowerCase();
     var user_word = this.state.arrayOfLettersPicked.join("").toLowerCase();
     var givens_obj = [];
