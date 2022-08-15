@@ -130,6 +130,7 @@ class WordleGame extends Component {
       cell.innerText = alphabet[i];
       if (alphabet[i] === " ") {
         cell.setAttribute("data-blank", "true");
+        cell.innerText = "*";
         cell.disabled = true;
       }
       cell.setAttribute("data-letter", alphabet[i]);
@@ -183,7 +184,10 @@ class WordleGame extends Component {
   render() {
     return (
       <Fragment>
-        <div className="container game-container-wrap">
+        <div
+          className="container game-container-wrap"
+          style={isMobile ? { zoom: 0.8 } : { zoom: 1 }}
+        >
           <div className="content">
             <Button
               className="center-element-justified"
@@ -240,7 +244,7 @@ class WordleGame extends Component {
             </div>
             <div id="answer_box" className="center-element-justified"></div>
 
-            <div id="gcontainer"></div>
+            <div id="gcontainer" className="center-element-justified"></div>
           </div>
         </div>
       </Fragment>
