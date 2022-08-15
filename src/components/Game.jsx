@@ -200,7 +200,7 @@ class Game extends Component {
         >
           <div style={{ backgroundColor: "#FAF9F6", paddingTop: "20px" }}>
             <div
-              className="center-element-justified centerAlignText"
+              className="center-element-justified"
               style={{ paddingBottom: "20px" }}
             >
               <div className="gameDescriptions">
