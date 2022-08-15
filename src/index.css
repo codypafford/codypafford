@@ -53,12 +53,11 @@ code {
 
 .game-container-wrap {
   position:relative;
-  width:100vw;
+  width:90vw;
   height:90vh;
   display:flex;
   align-items: 'center';
   text-align: center;
-  overflow: hidden;
   justify-content: center;
 }
 

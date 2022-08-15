@@ -183,7 +183,7 @@ class WordleGame extends Component {
   render() {
     return (
       <Fragment>
-        <div className="game-container-wrap imgParentMobile">
+        <div className="game-container-wrap">
           <div className="content">
             <Button
               style={{ margin: "10px" }}
