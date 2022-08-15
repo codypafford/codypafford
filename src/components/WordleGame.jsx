@@ -82,7 +82,7 @@ class WordleGame extends Component {
         if (lettersAlreadyPicked[i]) {
           cell.innerText = lettersAlreadyPicked[i];
         } else {
-          cell.innerText = "...";
+          cell.innerText = i;
           cell.style = "color:white; background-color:blue";
         }
         cell.setAttribute("data-answer-area-index-num", i);
