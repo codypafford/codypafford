@@ -258,11 +258,7 @@ class LoopyGame extends Component {
                 </div>
               </div>
             ) : (
-              <div className="game-container-wrap">
-                <div className="content">
-                  <div id="gcontainer"></div>
-                </div>
-              </div>
+              <div id="gcontainer" className="center-element-justified"></div>
             )}
             <div id="game_rules"></div>
           </div>

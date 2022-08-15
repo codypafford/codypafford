@@ -110,7 +110,7 @@ class Game extends Component {
   componentDidMount() {
     document.title = "Game";
     if (isMobile) {
-      this.setState({ numOfTilesXAndY: 5 });
+      this.setState({ numOfTilesXAndY: 8 });
       this.setState({ speed: 400 });
     }
     this.interval = setInterval(() => {
@@ -194,7 +194,10 @@ class Game extends Component {
   render() {
     return (
       <Fragment>
-        <div className="container game-container-wrap">
+        <div
+          className="container game-container-wrap"
+          style={isMobile ? { zoom: 0.8 } : { zoom: 1 }}
+        >
           <div style={{ backgroundColor: "#FAF9F6", paddingTop: "20px" }}>
             <div>
               <div className="gameDescriptions">
@@ -224,11 +227,7 @@ class Game extends Component {
                 </div>
               </div>
             ) : (
-              <div className="game-container-wrap">
-                <div className="content">
-                  <div id="gcontainer"></div>
-                </div>
-              </div>
+              <div id="gcontainer" className="center-element-justified"></div>
             )}
             <div id="game_rules"></div>
           </div>
