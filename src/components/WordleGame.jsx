@@ -110,14 +110,16 @@ class WordleGame extends Component {
     for (let i = 0; i < alphabet.length; i++) {
       let cell = document.createElement("button");
       cell.innerText = alphabet[i];
-      if (alphabet[i] === "") {
+      if (alphabet[i] === " ") {
         cell.setAttribute("data-blank", "true");
+        cell.disabled = true;
       }
       cell.setAttribute("data-letter", alphabet[i]);
       cell.style = "color:white; background-color:green";
       cell.addEventListener("click", function (e) {
         this_ref.selectLetterOnClick(e);
       });
+
       container.appendChild(cell).className = "grid-item gameBtns";
     }
   }
