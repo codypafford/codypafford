@@ -22,12 +22,14 @@ class WordleGame extends Component {
     };
 
     this.hideGameRules = this.hideGameRules.bind(this);
+    this.checkSolution = this.checkSolution.bind(this);
   }
 
   componentDidMount() {
     document.title = "Game";
+
     this.makeRows(this);
-    this.makeAnswerArea(this, null, null);
+    this.makeAnswerArea(this);
   }
 
   hideGameRules() {
@@ -36,50 +38,60 @@ class WordleGame extends Component {
 
   selectLetterOnClick(e) {
     var selectedLetter = e.target.getAttribute("data-letter");
-    this.makeAnswerArea(this, this.state.answerBoxToWriteTo, selectedLetter);
     console.log("put in " + selectedLetter);
-    this.setState({
-      arrayOfLettersPicked: this.state.arrayOfLettersPicked.concat([
-        selectedLetter,
-      ]),
-    });
-    console.log(this.state.arrayOfLettersPicked);
-    var i = this.state.answerBoxToWriteTo;
-    this.setState({ answerBoxToWriteTo: i + 1 });
+    var new_arr = this.state.arrayOfLettersPicked.concat([selectedLetter]);
+    var ii = this.state.answerBoxToWriteTo;
+    this.setState(
+      { answerBoxToWriteTo: ii + 1 },
+      this.setState(
+        {
+          arrayOfLettersPicked: new_arr,
+        },
+        this.makeAnswerArea(this, new_arr)
+      )
+    );
   }
 
   selectIndexOfAnswerBoxToWriteTo(e) {
     var i = e.target.getAttribute("data-answer-area-index-num");
     var arr = this.state.arrayOfLettersPicked;
     var arr = arr.splice(0, i);
-    this.setState({ arrayOfLettersPicked: arr });
-    this.setState({ answerBoxToWriteTo: i });
+    this.setState(
+      { arrayOfLettersPicked: arr },
+      this.setState({ answerBoxToWriteTo: i }),
+      this.makeAnswerArea(this, arr)
+    );
     // also need to remove all items from array after that specified index
   }
 
-  makeAnswerArea(this_ref, box_index_to_write_select_letter_to, letter) {
+  makeAnswerArea(this_ref, arrayOfLettersPicked) {
+    console.log("making answer area: ");
+    console.log(this.state.arrayOfLettersPicked);
     const container = document.getElementById("answer_box");
     while (container.firstChild) {
       container.firstChild.remove();
     }
+    var lettersAlreadyPicked = arrayOfLettersPicked;
     for (let i = 0; i < this.state.word.length; i++) {
-      var lettersAlreadyPicked = this.state.arrayOfLettersPicked;
       let cell = document.createElement("button");
       try {
-        cell.innerText = lettersAlreadyPicked[i];
+        if (lettersAlreadyPicked[i]) {
+          cell.innerText = lettersAlreadyPicked[i];
+        } else {
+          cell.innerText = "...";
+          cell.style = "color:white; background-color:blue";
+        }
         cell.setAttribute("data-answer-area-index-num", i);
       } catch {
+        console.log("caught");
         cell.innerText = "--";
       }
 
-      if (box_index_to_write_select_letter_to === i) {
-        cell.innerText = letter;
-      }
+      //   if (box_index_to_write_select_letter_to === i) {
+      //     cell.innerText = letter;
+      //   }
 
-      cell.style = "color:white; background-color:gray";
-      if (i == this.state.answerBoxToWriteTo) {
-        cell.style = "color:white; background-color:blue";
-      }
+      //   cell.style = "color:white; background-color:gray";
       cell.addEventListener("click", function (e) {
         this_ref.selectIndexOfAnswerBoxToWriteTo(e);
       });
@@ -110,13 +122,29 @@ class WordleGame extends Component {
     }
   }
 
+  checkSolution(e) {
+    if (
+      this.state.arrayOfLettersPicked.join("").toLowerCase() ===
+      this.state.word.toLowerCase()
+    ) {
+      alert("PASSED");
+    } else {
+      alert("failed");
+    }
+  }
+
   // TODO: make stylesheet for all styles instead of inline styling
   render() {
     return (
       <Fragment>
         <div className="game-container-wrap">
           <div className="content">
+            <Button style={{ margin: "10px" }} onClick={this.checkSolution}>
+              Check Solution
+            </Button>
+            <div>Letters chosen: {this.state.arrayOfLettersPicked}</div>
             <div id="answer_box"></div>
+
             <div id="gcontainer"></div>
           </div>
         </div>
