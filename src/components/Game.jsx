@@ -199,7 +199,10 @@ class Game extends Component {
           style={isMobile ? { zoom: 0.8 } : { zoom: 1 }}
         >
           <div style={{ backgroundColor: "#FAF9F6", paddingTop: "20px" }}>
-            <div>
+            <div
+              className="center-element-justified centerAlignText"
+              style={{ paddingBottom: "20px" }}
+            >
               <div className="gameDescriptions">
                 # of wrong clicks: {this.state.numOfWrongClicks}
               </div>
