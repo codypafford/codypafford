@@ -7,6 +7,7 @@ import {
   NavDropdown,
   Row,
 } from "react-bootstrap";
+import AnimatedText from "react-animated-text-content";
 
 import GameRules from "./GameRules";
 import { isMobile } from "react-device-detect";
@@ -19,6 +20,7 @@ class WordleGame extends Component {
       word: "apple",
       answerBoxToWriteTo: 0,
       arrayOfLettersPicked: [],
+      theGivens: [],
     };
 
     this.hideGameRules = this.hideGameRules.bind(this);
@@ -37,8 +39,10 @@ class WordleGame extends Component {
   }
 
   selectLetterOnClick(e) {
+    if (this.maxLettersPicked()) {
+      return;
+    }
     var selectedLetter = e.target.getAttribute("data-letter");
-    console.log("put in " + selectedLetter);
     var new_arr = this.state.arrayOfLettersPicked.concat([selectedLetter]);
     var ii = this.state.answerBoxToWriteTo;
     this.setState(
@@ -65,12 +69,12 @@ class WordleGame extends Component {
   }
 
   makeAnswerArea(this_ref, arrayOfLettersPicked) {
-    console.log("making answer area: ");
     console.log(this.state.arrayOfLettersPicked);
     const container = document.getElementById("answer_box");
     while (container.firstChild) {
       container.firstChild.remove();
     }
+
     var lettersAlreadyPicked = arrayOfLettersPicked;
     for (let i = 0; i < this.state.word.length; i++) {
       let cell = document.createElement("button");
@@ -83,7 +87,6 @@ class WordleGame extends Component {
         }
         cell.setAttribute("data-answer-area-index-num", i);
       } catch {
-        console.log("caught");
         cell.innerText = "--";
       }
 
@@ -133,6 +136,31 @@ class WordleGame extends Component {
     } else {
       alert("failed");
     }
+    this.setTheGivens();
+  }
+
+  setTheGivens() {
+    // For givens AND letters the user got correct
+    var the_answer = this.state.word.toLowerCase();
+    var user_word = this.state.arrayOfLettersPicked.join("").toLowerCase();
+    var givens_obj = [];
+    for (var i = 0; i < the_answer.length; i++) {
+      if (the_answer[i] === user_word[i]) {
+        givens_obj.push(the_answer[i] + "-" + i);
+      }
+    }
+    console.log("the givens: ");
+    console.log(givens_obj);
+    this.setState({ theGivens: givens_obj });
+    this.setState({ answerBoxToWriteTo: 0 });
+    this.setState({ arrayOfLettersPicked: [] });
+  }
+
+  maxLettersPicked() {
+    if (this.state.arrayOfLettersPicked.length >= this.state.word.length) {
+      return true;
+    }
+    return false;
   }
 
   // TODO: make stylesheet for all styles instead of inline styling
@@ -141,9 +169,41 @@ class WordleGame extends Component {
       <Fragment>
         <div className="game-container-wrap">
           <div className="content">
-            <Button style={{ margin: "10px" }} onClick={this.checkSolution}>
+            <Button
+              style={{ margin: "10px" }}
+              onClick={this.checkSolution}
+              disabled={!this.maxLettersPicked()}
+            >
               Check Solution
             </Button>
+            <div>
+              {" "}
+              {this.state.theGivens.map((given, idx) => {
+                return (
+                  <div key={idx} style={{ textAlign: "center", color: "gray" }}>
+                    <AnimatedText
+                      type="words" // animate words or chars
+                      animation={{
+                        x: "600px",
+                        y: "-200px",
+                        scale: 1.1,
+                        ease: "ease-in-out",
+                      }}
+                      animationType="wave"
+                      interval={0.06}
+                      duration={1.2}
+                      tag="p"
+                      className="animated-paragraph"
+                      includeWhiteSpaces
+                      threshold={0.1}
+                      rootMargin="20%"
+                    >
+                      {given}
+                    </AnimatedText>
+                  </div>
+                );
+              })}
+            </div>
             <div>Letters chosen: {this.state.arrayOfLettersPicked}</div>
             <div id="answer_box"></div>
 
