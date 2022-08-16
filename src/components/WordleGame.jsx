@@ -25,6 +25,7 @@ class WordleGame extends Component {
     this.state = {
       showRules: true,
       word: "apple",
+      definition: "",
       answerBoxToWriteTo: 0,
       arrayOfLettersPicked: [],
       theGivens: [],
@@ -49,7 +50,8 @@ class WordleGame extends Component {
     this.myModal = this.myModal.bind(this);
   }
 
-  componentDidMount() {
+  // make this simpler. use async/await
+  async componentDidMount() {
     document.title = "Game";
 
     var this_ref = this;
@@ -65,6 +67,23 @@ class WordleGame extends Component {
         this_ref.setState({ word: response.data[0] }, () => {
           this_ref.makeKeyboard(this_ref);
           this_ref.makeAnswerArea(this_ref);
+          axios
+            .get(
+              "https://api.dictionaryapi.dev/api/v2/entries/en/" +
+                this_ref.state.word
+            )
+            .then(function (response) {
+              // handle success
+              console.log(response);
+              this_ref
+                .setState({
+                  definition:
+                    response.data[0].meanings[0].definitions[0].definition,
+                })
+                .catch(function (error) {
+                  this_ref.setState({ definition: "" });
+                });
+            });
         });
       })
       .catch(function (error) {
@@ -418,7 +437,14 @@ class WordleGame extends Component {
               Letters chosen: {this.state.arrayOfLettersPicked}
             </div>
             <div id="answer_box" className="center-element-justified"></div>
-            <div>Attempts: {this.state.attempts}</div>
+            {this.state.definition != "" ? (
+              <strong>Definition: {this.state.definition}</strong>
+            ) : (
+              <></>
+            )}
+            <div style={{ color: "green" }}>
+              Attempts: {this.state.attempts}
+            </div>
             <div id="gcontainer" className="center-element-justified"></div>
           </div>
         </div>
