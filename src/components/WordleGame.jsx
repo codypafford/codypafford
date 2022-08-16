@@ -7,6 +7,7 @@ import {
   NavDropdown,
   Row,
 } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 import AnimatedText from "react-animated-text-content";
 
 import GameRules from "./GameRules";
@@ -29,12 +30,17 @@ class WordleGame extends Component {
       theGivens: [],
       attempts: 0,
       wordSize: 5,
+      showRuleModal: false,
     };
 
     this.hideGameRules = this.hideGameRules.bind(this);
     this.checkSolution = this.checkSolution.bind(this);
     this.showAnswer = this.showAnswer.bind(this);
     this.startNew = this.startNew.bind(this);
+
+    this.hideRuleModal = this.hideRuleModal.bind(this);
+    this.showRuleModal = this.showRuleModal.bind(this);
+    this.rulesModal = this.rulesModal.bind(this);
   }
 
   componentDidMount() {
@@ -210,6 +216,39 @@ class WordleGame extends Component {
     this.componentDidMount();
   }
 
+  showRuleModal() {
+    this.setState({ showRuleModal: true });
+  }
+  hideRuleModal() {
+    this.setState({ showRuleModal: false });
+  }
+
+  rulesModal() {
+    // const [show, setShow] = useState(false);
+
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+    return (
+      <>
+        <Button variant="primary" onClick={this.showRuleModal}>
+          Show Rules
+        </Button>
+
+        <Modal show={this.state.showRuleModal} onHide={this.hideRuleModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideRuleModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
   // TODO: make stylesheet for all styles instead of inline styling
   render() {
     return (
@@ -221,11 +260,14 @@ class WordleGame extends Component {
           <div className="content">
             <div className="center-element-justified">
               <Button
-                style={{ margin: "10px" }}
-                onClick={this.checkSolution}
-                disabled={!this.maxLettersPicked()}
+                style={{
+                  margin: "10px",
+                  backgroundColor: "darkred",
+                  color: "white",
+                }}
+                onClick={this.startNew}
               >
-                Check Solution
+                New Word
               </Button>
               <Button style={{ margin: "10px" }}>Hints</Button>
               <Button
@@ -239,14 +281,11 @@ class WordleGame extends Component {
                 Show Answer
               </Button>
               <Button
-                style={{
-                  margin: "10px",
-                  backgroundColor: "darkred",
-                  color: "white",
-                }}
-                onClick={this.startNew}
+                style={{ margin: "10px" }}
+                onClick={this.checkSolution}
+                disabled={!this.maxLettersPicked()}
               >
-                New Word
+                Check Solution
               </Button>
             </div>
             <div>
@@ -307,6 +346,7 @@ class WordleGame extends Component {
             <div id="answer_box" className="center-element-justified"></div>
             <div>Attempts: {this.state.attempts}</div>
             <div id="gcontainer" className="center-element-justified"></div>
+            <this.rulesModal></this.rulesModal>
           </div>
         </div>
       </Fragment>
