@@ -31,6 +31,8 @@ class WordleGame extends Component {
       attempts: 0,
       wordSize: 5,
       showRuleModal: false,
+      modalHeaderText: "",
+      modalBodyText: "",
     };
 
     this.hideGameRules = this.hideGameRules.bind(this);
@@ -41,6 +43,10 @@ class WordleGame extends Component {
     this.hideRuleModal = this.hideRuleModal.bind(this);
     this.showRuleModal = this.showRuleModal.bind(this);
     this.rulesModal = this.rulesModal.bind(this);
+
+    this.hideModalForButtons = this.hideModalForButtons.bind(this);
+    this.showModalForButtons = this.showModalForButtons.bind(this);
+    this.myModal = this.myModal.bind(this);
   }
 
   componentDidMount() {
@@ -202,9 +208,38 @@ class WordleGame extends Component {
     return false;
   }
 
+  showHints() {
+    var word = this.state.word;
+    let vowels_obj = { a: 0, e: 0, i: 0, o: 0, u: 0 };
+    let vowels = "aeiou";
+    let numOfVowelsFound = 0;
+
+    for (var i = 0; i < word.length; i++) {
+      let letter = word[i].toLowerCase();
+      if (vowels.includes(letter)) {
+        let count = vowels_obj[letter];
+        vowels_obj[letter] = count + 1;
+        numOfVowelsFound = numOfVowelsFound + 1;
+      }
+    }
+    console.log("# of vowels in word: " + numOfVowelsFound);
+  }
+
   showAnswer() {
-    alert("The answer was " + this.state.word + ".\nNow Picking a New Word...");
     this.startNew();
+    this.setState({ modalHeaderText: "Information" }, () => {
+      this.setState(
+        {
+          modalBodyText:
+            "The Answer Was '" +
+            this.state.word +
+            "'.\nNow Picking a New Word.\nGood Luck!",
+        },
+        () => {
+          this.showModalForButtons();
+        }
+      );
+    });
   }
 
   startNew() {
@@ -214,8 +249,17 @@ class WordleGame extends Component {
     this.setState({ showRules: false });
     this.setState({ attempts: 0 });
     this.componentDidMount();
+    this.setState({ modalHeaderText: "Information" }, () => {
+      this.setState(
+        { modalBodyText: "A New Word Has Been Selected. Good Luck!" },
+        () => {
+          this.showModalForButtons();
+        }
+      );
+    });
   }
 
+  // ---------------------------------------------
   showRuleModal() {
     this.setState({ showRuleModal: true });
   }
@@ -223,11 +267,7 @@ class WordleGame extends Component {
     this.setState({ showRuleModal: false });
   }
 
-  rulesModal() {
-    // const [show, setShow] = useState(false);
-
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
+  rulesModal(props) {
     return (
       <>
         <Button variant="primary" onClick={this.showRuleModal}>
@@ -236,11 +276,40 @@ class WordleGame extends Component {
 
         <Modal show={this.state.showRuleModal} onHide={this.hideRuleModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>{props.heading}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Body>{props.body}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.hideRuleModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+  //----------------------------------------------
+  showModalForButtons() {
+    this.setState({ showModal: true });
+  }
+  hideModalForButtons() {
+    this.setState({ showModal: false });
+  }
+
+  myModal() {
+    return (
+      <>
+        {/* <Button variant="primary" onClick={this.showModalForButtons}>
+          Show Rules
+        </Button> */}
+
+        <Modal show={this.state.showModal} onHide={this.hideModalForButtons}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.modalHeaderText}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.modalBodyText}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideModalForButtons}>
               Close
             </Button>
           </Modal.Footer>
@@ -280,6 +349,11 @@ class WordleGame extends Component {
               >
                 Show Answer
               </Button>
+              <this.myModal></this.myModal>
+              <this.rulesModal
+                heading="Game Rules"
+                body="Guess the word. You have unlimited attempts and can also ask for hints."
+              ></this.rulesModal>
               <Button
                 style={{ margin: "10px" }}
                 onClick={this.checkSolution}
@@ -346,7 +420,6 @@ class WordleGame extends Component {
             <div id="answer_box" className="center-element-justified"></div>
             <div>Attempts: {this.state.attempts}</div>
             <div id="gcontainer" className="center-element-justified"></div>
-            <this.rulesModal></this.rulesModal>
           </div>
         </div>
       </Fragment>
