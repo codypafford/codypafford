@@ -27,10 +27,14 @@ class WordleGame extends Component {
       answerBoxToWriteTo: 0,
       arrayOfLettersPicked: [],
       theGivens: [],
+      attempts: 0,
+      wordSize: 5,
     };
 
     this.hideGameRules = this.hideGameRules.bind(this);
     this.checkSolution = this.checkSolution.bind(this);
+    this.showAnswer = this.showAnswer.bind(this);
+    this.startNew = this.startNew.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +43,10 @@ class WordleGame extends Component {
     var this_ref = this;
     // Make a request for a user with a given ID
     axios
-      .get("https://random-word-api.herokuapp.com/word?length=7")
+      .get(
+        "https://random-word-api.herokuapp.com/word?length=" +
+          this.state.wordSize
+      )
       .then(function (response) {
         // handle success
         console.log(response);
@@ -148,10 +155,12 @@ class WordleGame extends Component {
       this.state.arrayOfLettersPicked.join("").toLowerCase() ===
       this.state.word.toLowerCase()
     ) {
-      alert("PASSED");
+      alert("YOU WERE CORRECT! CONGRATS, YOU WIN!");
     } else {
-      alert("failed");
+      alert("YOU WERE INCORRECT. TRY AGAIIN.");
     }
+    var attempts = this.state.attempts;
+    this.setState({ attempts: attempts + 1 });
     this.setTheGivens();
   }
 
@@ -180,6 +189,20 @@ class WordleGame extends Component {
     return false;
   }
 
+  showAnswer() {
+    alert("The answer was " + this.state.word + ".\nNow Picking a New Word...");
+    this.startNew();
+  }
+
+  startNew() {
+    this.setState({ answerBoxToWriteTo: 0 });
+    this.setState({ arrayOfLettersPicked: [] });
+    this.setState({ theGivens: [] });
+    this.setState({ showRules: false });
+    this.setState({ attempts: 0 });
+    this.componentDidMount();
+  }
+
   // TODO: make stylesheet for all styles instead of inline styling
   render() {
     return (
@@ -189,14 +212,36 @@ class WordleGame extends Component {
           style={isMobile ? { zoom: 0.8 } : { zoom: 1 }}
         >
           <div className="content">
-            <Button
-              className="center-element-justified"
-              style={{ margin: "10px" }}
-              onClick={this.checkSolution}
-              disabled={!this.maxLettersPicked()}
-            >
-              Check Solution
-            </Button>
+            <div className="center-element-justified">
+              <Button
+                style={{ margin: "10px" }}
+                onClick={this.checkSolution}
+                disabled={!this.maxLettersPicked()}
+              >
+                Check Solution
+              </Button>
+              <Button style={{ margin: "10px" }}>Hints</Button>
+              <Button
+                style={{
+                  margin: "10px",
+                  backgroundColor: "darkred",
+                  color: "white",
+                }}
+                onClick={this.showAnswer}
+              >
+                Show Answer
+              </Button>
+              <Button
+                style={{
+                  margin: "10px",
+                  backgroundColor: "darkred",
+                  color: "white",
+                }}
+                onClick={this.startNew}
+              >
+                New Word
+              </Button>
+            </div>
             <div>
               {" "}
               <div
@@ -253,7 +298,7 @@ class WordleGame extends Component {
               Letters chosen: {this.state.arrayOfLettersPicked}
             </div>
             <div id="answer_box" className="center-element-justified"></div>
-
+            <div>Attempts: {this.state.attempts}</div>
             <div id="gcontainer" className="center-element-justified"></div>
           </div>
         </div>
