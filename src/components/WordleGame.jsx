@@ -167,17 +167,24 @@ class WordleGame extends Component {
   setTheGivens() {
     // For givens AND letters the user got correct
     // TODO: don't overwrite givens until onto the next word. Concat instead.
+    var separator = "=";
     var the_answer = this.state.word.toLowerCase();
     var user_word = this.state.arrayOfLettersPicked.join("").toLowerCase();
-    var givens_obj = [];
+    var givens_arr = [];
     for (var i = 0; i < the_answer.length; i++) {
       if (the_answer[i] === user_word[i]) {
-        givens_obj.push(the_answer[i] + "-" + i);
+        givens_arr.push(the_answer[i].toUpperCase() + separator + i);
       }
     }
     console.log("the givens: ");
-    console.log(givens_obj);
-    this.setState({ theGivens: givens_obj });
+    console.log(givens_arr);
+    var x = this.state.theGivens;
+    x = [...x, ...givens_arr];
+    let givens = [...new Set(x)];
+    givens.sort(function (a, b) {
+      return parseInt(a.split(separator)[1]) - parseInt(b.split(separator)[1]);
+    });
+    this.setState({ theGivens: givens });
     this.setState({ answerBoxToWriteTo: 0 });
     this.setState({ arrayOfLettersPicked: [] });
   }
