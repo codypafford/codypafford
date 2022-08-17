@@ -501,8 +501,8 @@ class WordleGame extends Component {
             <div id="answer_box" className="center-element-justified"></div>
             {this.state.definition != "" ? (
               <div
-                className="center-element-justified"
-                style={{ fontWeight: "bold" }}
+                className="centerAlignText"
+                style={{ fontWeight: "bold", fontSize: "14px" }}
               >
                 Definition: {this.state.definition}
               </div>
