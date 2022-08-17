@@ -56,9 +56,8 @@ class WordleGame extends Component {
   async componentDidMount() {
     document.title = "Game";
     var this_ref = this;
-    this.getWord(this_ref).then(() => {
-      this.getDefinition(this_ref);
-    });
+    await this.getWord(this_ref);
+    // this.getDefinition(this_ref);
   }
 
   async getWord(this_ref) {
@@ -68,10 +67,11 @@ class WordleGame extends Component {
           this.state.wordSize
       )
       .then((response) => {
-        console.log("-------------------response-------------");
+        this.getDefinition(this_ref, response.data[0]);
+        console.log("-------------------getWord response-------------");
         console.log(response);
         console.log(response.data[0]);
-        console.log("-------------------response-------------");
+        console.log("-------------------getWord response-------------");
         this_ref.setState({ word: response.data[0] }, () => {
           this_ref.makeKeyboard(this_ref);
           this_ref.makeAnswerArea(this_ref);
@@ -79,11 +79,9 @@ class WordleGame extends Component {
       });
   }
 
-  async getDefinition(this_ref) {
+  async getDefinition(this_ref, word) {
     await axios
-      .get(
-        "https://api.dictionaryapi.dev/api/v2/entries/en/" + this_ref.state.word
-      )
+      .get("https://api.dictionaryapi.dev/api/v2/entries/en/" + word)
       .then(function (response) {
         // handle success
         console.log(response);
@@ -293,7 +291,13 @@ class WordleGame extends Component {
     this.setModalInformation("Information", body);
   }
 
+  //   async startNewAsync() {
+
+  //   }
+
   startNew() {
+    // these need to all be inside a promise somehow ??
+    this.setState({ word: "" });
     this.setState({ definition: "" });
     this.setState({ answerBoxToWriteTo: 0 });
     this.setState({ arrayOfLettersPicked: [] });
