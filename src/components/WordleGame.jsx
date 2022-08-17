@@ -57,7 +57,6 @@ class WordleGame extends Component {
     document.title = "Game";
     var this_ref = this;
     await this.getWord(this_ref);
-    // this.getDefinition(this_ref);
   }
 
   async getWord(this_ref) {
@@ -232,6 +231,26 @@ class WordleGame extends Component {
     return false;
   }
 
+  syllableCount(word) {
+    word = word.toLowerCase(); //word.downcase!
+    if (word.length <= 2) {
+      return 1;
+    } //return 1 if word.length <= 3
+    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, ""); //word.sub!(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '')
+    word = word.replace(/^y/, ""); //word.sub!(/^y/, '')
+    return word.match(/[aeiouy]{1,2}/g).length; //word.scan(/[aeiouy]{1,2}/).size
+  }
+
+  getRepeatCharacter(str) {
+    for (var i = 0; i < str.length; i++) {
+      if (str.indexOf(str[i]) !== str.lastIndexOf(str[i])) {
+        console.log(str[i]);
+        return [true, str[i]]; // repeats
+      }
+    }
+    return [false, null];
+  }
+
   showHints() {
     var word = this.state.word;
     let vowels_obj = { a: 0, e: 0, i: 0, o: 0, u: 0 };
@@ -266,8 +285,23 @@ class WordleGame extends Component {
         vowels_obj[vowelSeenTheMost] +
         " time(s).\n";
     }
+    let numOfSyllables = this.syllableCount(word);
+    var hint3 =
+      numOfSyllables <= 1
+        ? "There is " + numOfSyllables + " syllable(s).\n"
+        : "There are " + numOfSyllables + " syllable(s).\n";
 
-    hint_string = hint1 + hint2;
+    var repeats = this.getRepeatCharacter(word);
+    var hint4 = "";
+    if (
+      repeats[0] == true &&
+      repeats[1].toUpperCase() != vowelSeenTheMost.toUpperCase()
+    ) {
+      hint4 =
+        "The letter '" + repeats[1].toUpperCase() + "' is seen more than once.";
+    }
+
+    hint_string = hint1 + hint2 + hint3 + hint4;
 
     var body = hint_string;
     this.setModalInformation("Hints", body);
@@ -291,12 +325,7 @@ class WordleGame extends Component {
     this.setModalInformation("Information", body);
   }
 
-  //   async startNewAsync() {
-
-  //   }
-
   startNew() {
-    // these need to all be inside a promise somehow ??
     this.setState({ word: "" });
     this.setState({ definition: "" });
     this.setState({ answerBoxToWriteTo: 0 });
@@ -309,7 +338,7 @@ class WordleGame extends Component {
     this.setState({ modalBodyText: "" });
 
     var body = "A New Word Has Been Selected. Good Luck!";
-    // this.setModalInformation("Information", body);
+    this.setModalInformation("Information", body);
     this.componentDidMount();
   }
 
@@ -471,9 +500,12 @@ class WordleGame extends Component {
             </div>
             <div id="answer_box" className="center-element-justified"></div>
             {this.state.definition != "" ? (
-              <strong className="center-element-justified">
+              <div
+                className="center-element-justified"
+                style={{ fontWeight: "bold" }}
+              >
                 Definition: {this.state.definition}
-              </strong>
+              </div>
             ) : (
               <></>
             )}
