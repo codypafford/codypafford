@@ -48,49 +48,59 @@ class WordleGame extends Component {
     this.hideModalForButtons = this.hideModalForButtons.bind(this);
     this.showModalForButtons = this.showModalForButtons.bind(this);
     this.myModal = this.myModal.bind(this);
+
+    this.showHints = this.showHints.bind(this);
   }
 
   // make this simpler. use async/await
   async componentDidMount() {
     document.title = "Game";
-
     var this_ref = this;
-    // Make a request for a user with a given ID
-    axios
+    this.getWord(this_ref).then(() => {
+      this.getDefinition(this_ref);
+    });
+  }
+
+  async getWord(this_ref) {
+    await axios
       .get(
         "https://random-word-api.herokuapp.com/word?length=" +
           this.state.wordSize
       )
-      .then(function (response) {
-        // handle success
+      .then((response) => {
+        console.log("-------------------response-------------");
         console.log(response);
+        console.log(response.data[0]);
+        console.log("-------------------response-------------");
         this_ref.setState({ word: response.data[0] }, () => {
           this_ref.makeKeyboard(this_ref);
           this_ref.makeAnswerArea(this_ref);
-          axios
-            .get(
-              "https://api.dictionaryapi.dev/api/v2/entries/en/" +
-                this_ref.state.word
-            )
-            .then(function (response) {
-              // handle success
-              console.log(response);
-              this_ref
-                .setState({
-                  definition:
-                    response.data[0].meanings[0].definitions[0].definition,
-                })
-                .catch(function (error) {
-                  this_ref.setState({ definition: "" });
-                });
-            });
         });
+      });
+  }
+
+  async getDefinition(this_ref) {
+    await axios
+      .get(
+        "https://api.dictionaryapi.dev/api/v2/entries/en/" + this_ref.state.word
+      )
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        this_ref.setState({
+          definition: response.data[0].meanings[0].definitions[0].definition,
+        });
+        console.log(
+          "definition of " +
+            this_ref.state.word +
+            " is " +
+            response.data[0].meanings[0].definitions[0].definition
+        );
       })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {});
+      .catch((err) => {
+        this_ref.setState({ definition: "" });
+      });
+    return;
   }
 
   hideGameRules() {
@@ -128,7 +138,6 @@ class WordleGame extends Component {
   }
 
   makeAnswerArea(this_ref, arrayOfLettersPicked) {
-    console.log(this.state.arrayOfLettersPicked);
     const container = document.getElementById("answer_box");
     while (container.firstChild) {
       container.firstChild.remove();
@@ -207,8 +216,6 @@ class WordleGame extends Component {
         givens_arr.push(the_answer[i].toUpperCase() + separator + i);
       }
     }
-    console.log("the givens: ");
-    console.log(givens_arr);
     var x = this.state.theGivens;
     x = [...x, ...givens_arr];
     let givens = [...new Set(x)];
@@ -241,18 +248,38 @@ class WordleGame extends Component {
         numOfVowelsFound = numOfVowelsFound + 1;
       }
     }
-    console.log("# of vowels in word: " + numOfVowelsFound);
+    var hint_string = "";
+
+    var hint1 =
+      numOfVowelsFound <= 1
+        ? "There is " + numOfVowelsFound + " vowel.\n"
+        : "There are " + numOfVowelsFound + " vowels.\n";
+
+    var hint2 = "";
+    var vowelSeenTheMost;
+    if (numOfVowelsFound > 0) {
+      vowelSeenTheMost = Object.keys(vowels_obj).reduce((a, b) =>
+        vowels_obj[a] > vowels_obj[b] ? a : b
+      );
+      hint2 =
+        "Most seen vowel: " +
+        vowelSeenTheMost.toUpperCase() +
+        " is seen " +
+        vowels_obj[vowelSeenTheMost] +
+        " time(s).\n";
+    }
+
+    hint_string = hint1 + hint2;
+
+    var body = hint_string;
+    this.setModalInformation("Hints", body);
   }
 
-  showAnswer() {
-    this.startNew();
-    this.setState({ modalHeaderText: "Information" }, () => {
+  setModalInformation(heading, body) {
+    this.setState({ modalHeaderText: heading }, () => {
       this.setState(
         {
-          modalBodyText:
-            "The Answer Was '" +
-            this.state.word +
-            "'.\nNow Picking a New Word.\nGood Luck!",
+          modalBodyText: body,
         },
         () => {
           this.showModalForButtons();
@@ -261,21 +288,25 @@ class WordleGame extends Component {
     });
   }
 
+  showAnswer() {
+    var body = "The Answer Is '" + this.state.word + "'.";
+    this.setModalInformation("Information", body);
+  }
+
   startNew() {
+    this.setState({ definition: "" });
     this.setState({ answerBoxToWriteTo: 0 });
     this.setState({ arrayOfLettersPicked: [] });
     this.setState({ theGivens: [] });
     this.setState({ showRules: false });
     this.setState({ attempts: 0 });
+    this.setState({ showRuleModal: false });
+    this.setState({ modalHeaderText: "" });
+    this.setState({ modalBodyText: "" });
+
+    var body = "A New Word Has Been Selected. Good Luck!";
+    // this.setModalInformation("Information", body);
     this.componentDidMount();
-    this.setState({ modalHeaderText: "Information" }, () => {
-      this.setState(
-        { modalBodyText: "A New Word Has Been Selected. Good Luck!" },
-        () => {
-          this.showModalForButtons();
-        }
-      );
-    });
   }
 
   // ---------------------------------------------
@@ -290,7 +321,7 @@ class WordleGame extends Component {
     return (
       <>
         <Button variant="primary" onClick={this.showRuleModal}>
-          Show Rules
+          Rules
         </Button>
 
         <Modal show={this.state.showRuleModal} onHide={this.hideRuleModal}>
@@ -318,10 +349,6 @@ class WordleGame extends Component {
   myModal() {
     return (
       <>
-        {/* <Button variant="primary" onClick={this.showModalForButtons}>
-          Show Rules
-        </Button> */}
-
         <Modal show={this.state.showModal} onHide={this.hideModalForButtons}>
           <Modal.Header closeButton>
             <Modal.Title>{this.state.modalHeaderText}</Modal.Title>
@@ -357,7 +384,9 @@ class WordleGame extends Component {
               >
                 New Word
               </Button>
-              <Button style={{ margin: "10px" }}>Hints</Button>
+              <Button style={{ margin: "10px" }} onClick={this.showHints}>
+                Hints
+              </Button>
               <Button
                 style={{
                   margin: "10px",
@@ -438,7 +467,9 @@ class WordleGame extends Component {
             </div>
             <div id="answer_box" className="center-element-justified"></div>
             {this.state.definition != "" ? (
-              <strong>Definition: {this.state.definition}</strong>
+              <strong className="center-element-justified">
+                Definition: {this.state.definition}
+              </strong>
             ) : (
               <></>
             )}
