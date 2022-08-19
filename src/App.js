@@ -13,10 +13,10 @@ function App() {
     <HashRouter>
       <NavigationMenu />
       <Routes>
-      <Route path="/about-me" element={<AboutMe />} />
-        <Route path="/clicker" element={<Game />} />
-        <Route path="/loop-game" element={<LoopyGame />} />
-        <Route path="/word-game1" element={<WordleGame />} />
+      <Route exact path="/about-me" element={<AboutMe />} />
+        <Route exact path="/clicker" element={<Game />} />
+        <Route exact path="/loop-game" element={<LoopyGame />} />
+        <Route exact path="/word-game1" element={<WordleGame />} />
         <Route exact path="/" element={<Home />} /> 
       </Routes>
     </HashRouter>

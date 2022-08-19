@@ -11,21 +11,23 @@ import {
 import GameRules from "./GameRules";
 import { isMobile } from "react-device-detect";
 
+const initialState = {
+  direction: "DOWN",
+  xCoord: 5,
+  yCoord: 5,
+  numOfWrongClicks: 0,
+  numOfGoodClicks: 0,
+  numOfMissedClicks: 0,
+  totalPossibleClicks: 0,
+  speed: 800,
+  numOfTilesXAndY: 10,
+  showRules: true,
+};
+
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      direction: "DOWN",
-      xCoord: 5,
-      yCoord: 5,
-      numOfWrongClicks: 0,
-      numOfGoodClicks: 0,
-      numOfMissedClicks: 0,
-      totalPossibleClicks: 0,
-      speed: 800,
-      numOfTilesXAndY: 10,
-      showRules: true,
-    };
+    this.state = initialState;
 
     this.hideGameRules = this.hideGameRules.bind(this);
   }
@@ -114,6 +116,7 @@ class Game extends Component {
       this.setState({ speed: 400 });
     }
     this.interval = setInterval(() => {
+      this.setState({ intervalId: this.interval });
       if (!this.state.showRules) {
         this.randomClickerGame(
           this.state.numOfTilesXAndY,
@@ -121,6 +124,11 @@ class Game extends Component {
         );
       }
     }, this.state.speed);
+  }
+
+  componentWillUnmount() {
+    this.setState(initialState);
+    clearInterval(this.state.intervalId);
   }
 
   checkClick(e) {
